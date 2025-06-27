@@ -1,0 +1,253 @@
+/* styles.css */
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    overflow: hidden;
+}
+
+body {
+    display: flex;
+    flex-direction: row;
+}
+
+.menu-toggle {
+    position: fixed;
+    top: 20px;
+    left: 0;
+    width: 50px;
+    height: 50px;
+    background-color: #003366;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 101;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.menu-toggle span {
+    display: block;
+    height: 4px;
+    width: 25px;
+    background: #ffcc66;
+    margin: 3px 0;
+    border-radius: 2px;
+    transition: 0.3s;
+}
+
+.sidebar {
+    background-color: #003366;
+    color: white;
+    width: 250px;
+    padding: 20px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: -250px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    transition: left 0.3s ease;
+    z-index: 100;
+    border-radius: 0 10px 10px 0;
+}
+
+.menu-toggle:hover + .sidebar,
+.sidebar:hover {
+    left: 0;
+}
+
+.sidebar h2 {
+    font-size: 1.8em;
+    margin-bottom: 20px;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin: 15px 0;
+}
+
+.sidebar ul li a {
+    color: #ffcc66;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.sidebar ul li a:hover {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+.sidebar .social-icons {
+    margin-top: 30px;
+    display: flex;
+    gap: 10px;
+}
+
+.social-icons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    animation: fadeIn 2s ease-in;
+}
+
+.social-icons a {
+    display: inline-block;
+    width: 36px;
+    height: 36px;
+}
+
+.social-icons img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    transition: transform 0.3s;
+}
+
+.social-icons img:hover {
+    transform: scale(1.1);
+}
+
+.main {
+    margin-left: 50px;
+    padding-left: 20px;
+    width: calc(100% - 50px);
+    min-height: 100vh;
+    overflow-y: auto;
+    transition: margin-left 0.4s ease;
+}
+
+header.hero {
+    background: linear-gradient(to right, #003366, #0059b3);
+    color: #fff;
+    padding: 60px 30px 30px;
+    text-align: center;
+    animation: fadeIn 2s ease-in;
+}
+
+.hero h1 {
+    margin: 0;
+    font-size: 3em;
+}
+
+.hero .tagline {
+    font-size: 1.3em;
+    color: #d1e0ff;
+    margin-top: 10px;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+main.content {
+    padding: 30px;
+}
+
+section {
+    margin-bottom: 40px;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 20px;
+}
+
+h2 {
+    color: #003366;
+    font-size: 2em;
+    border-left: 5px solid #ff9900;
+    padding-left: 10px;
+}
+
+h3 {
+    font-size: 1.5em;
+    margin-bottom: 5px;
+}
+
+.dates {
+    color: #666;
+    font-style: italic;
+    margin-bottom: 10px;
+}
+
+ul {
+    padding-left: 20px;
+    list-style-type: disc;
+}
+
+ul li {
+    margin-bottom: 8px;
+}
+
+footer {
+    background-color: #003366;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    font-size: 0.9em;
+    margin-top: 40px;
+}
+
+.fade-in {
+    animation: fadeIn 1.5s ease-in;
+}
+
+.slide-up {
+    animation: slideUp 1.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .sidebar {
+        display: none;
+    }
+
+    .main {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .hero h1 {
+        font-size: 2em;
+    }
+
+    .hero .tagline {
+        font-size: 1em;
+    }
+
+    h2 {
+        font-size: 1.5em;
+    }
+
+    h3 {
+        font-size: 1.2em;
+    }
+}
