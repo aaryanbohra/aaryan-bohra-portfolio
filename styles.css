@@ -225,8 +225,6 @@ footer {
     }
 }
 
-/* --- Certifications Section Styling --- */
-
 #certifications ul {
     list-style-type: none;
     padding: 0;
@@ -259,16 +257,33 @@ footer {
     width: 120px;
     height: 120px;
     object-fit: contain;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
+    border-radius: 10px;
+    background-color: white;
     padding: 5px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    display: block;
 }
 
 #certifications ul li .cert-text {
     font-size: 1.25em;
     font-weight: 600;
-    line-hei
+    line-height: 1.4;
+    flex: 1;
+}
+
+@media screen and (max-width: 768px) {
+    #certifications ul li a {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    #certifications ul li .cert-text {
+        margin-top: 10px;
+        font-size: 1.1em;
+    }
+}
+
 
 
 
