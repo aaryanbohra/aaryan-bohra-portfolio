@@ -227,34 +227,23 @@ footer {
 
 /* Certification Section Styling - Global */
 
-#certifications ul {
-    list-style: none;
-    padding-left: 0;
-}
-
-#certifications ul li {
+#certifications ul li a {
     display: flex;
-    align-items: center;  /* Vertically centers image and text */
-    margin-bottom: 25px;
-    font-size: 1.25em;
+    align-items: center; /* vertically centers image and text */
     color: #003366;
+    text-decoration: none;
 }
 
-#certifications ul li img.cert-badge {
-    width: 120px;        /* Bigger image */
-    height: auto;
-    margin-right: 20px;  /* Space between image and text */
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    transition: transform 0.3s ease;
-    display: block;      /* Prevent baseline alignment issues */
+#certifications ul li a:hover {
+    text-decoration: underline;
 }
 
-#certifications ul li img.cert-badge:hover {
-    transform: scale(1.1);
+#certifications ul li .cert-text {
+    font-size: 1.25em;
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
 }
-
-
 
 
 @media screen and (max-width: 768px) {
