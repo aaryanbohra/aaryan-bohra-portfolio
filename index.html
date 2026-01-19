@@ -350,6 +350,15 @@
             }
         }
 
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
         /* Section Styles */
         section {
             max-width: 1200px;
@@ -867,6 +876,30 @@
         <h2 class="section-header">Experience</h2>
         <div class="experience-grid">
             <div class="experience-card">
+                <h3>AI Project Moderator</h3>
+                <p style="color: var(--accent); font-size: 1.1rem; margin-bottom: 0.3rem;">Firstsource · Contract</p>
+                <p class="dates">Nov 2025 – Present</p>
+                <ul>
+                    <li>Executed Python scripts to automate structured video data collection for AI model training and evaluation</li>
+                    <li>Configured and monitored recording parameters to ensure compliance with data collection protocols</li>
+                    <li>Performed QA engineering tasks by analyzing test data for accuracy and reliability across validation cycles</li>
+                    <li>Identified and resolved data and hardware issues using systematic troubleshooting and quality assurance methodologies</li>
+                </ul>
+            </div>
+
+            <div class="experience-card">
+                <h3>Data Analytics Extern</h3>
+                <p style="color: var(--accent); font-size: 1.1rem; margin-bottom: 0.3rem;">Beats by Dre</p>
+                <p class="dates">Sept 2025 – Dec 2025</p>
+                <ul>
+                    <li>Analyzed survey and social media data to uncover consumer trends and product sentiment patterns for Global Consumer Insights team</li>
+                    <li>Built sentiment analysis models using Python to interpret customer emotions and identify feature pain points, informing product strategy</li>
+                    <li>Cleaned and explored complex datasets, identifying key behavioral patterns that drove actionable business recommendations</li>
+                    <li>Developed interactive dashboards to visualize consumer insights and trends across multiple data sources</li>
+                </ul>
+            </div>
+
+            <div class="experience-card">
                 <h3>Marketing Analytics Intern</h3>
                 <p style="color: var(--accent); font-size: 1.1rem; margin-bottom: 0.3rem;">Alcatel Lucent Enterprise</p>
                 <p class="dates">Feb 2023 – Present</p>
@@ -894,9 +927,20 @@
         <h2 class="section-header">Education</h2>
         <div class="experience-grid">
             <div class="experience-card">
+                <h3>Master of Science in Data Analytics Engineering</h3>
+                <p style="color: var(--accent); font-size: 1.1rem; margin-bottom: 0.3rem;">Northeastern University</p>
+                <p class="dates">Expected Graduation: June 2027</p>
+                <ul>
+                    <li>Advanced coursework in data engineering, machine learning systems, and analytics at scale</li>
+                    <li>Focus on building production-ready data pipelines and ML infrastructure</li>
+                    <li>Specialized training in cloud computing, distributed systems, and MLOps</li>
+                </ul>
+            </div>
+
+            <div class="experience-card">
                 <h3>Bachelor of Science in Data Science</h3>
                 <p style="color: var(--accent); font-size: 1.1rem; margin-bottom: 0.3rem;">University of California, Riverside</p>
-                <p class="dates">Graduation: June 2025</p>
+                <p class="dates">Graduated: June 2025</p>
                 <ul>
                     <li>Focused on machine learning, statistical modeling, and data engineering</li>
                     <li>Relevant coursework: Deep Learning, Big Data Analytics, Algorithm Design, Database Systems</li>
@@ -909,6 +953,14 @@
     <section id="projects">
         <h2 class="section-header">Featured Projects</h2>
         <div class="projects-grid">
+            <div class="project-card">
+                <h3>Financial Report Dashboard</h3>
+                <p>Interactive Power BI dashboard analyzing sales, profitability, discounts, and regional performance using Microsoft's Financial Sample dataset. Multi-page visuals for KPIs, trends, and product insights.</p>
+                <a href="https://github.com/aaryanbohra/Power-BI-Sample-Financial-Data-Project" target="_blank" class="project-link">
+                    View Project →
+                </a>
+            </div>
+
             <div class="project-card">
                 <h3>YouTube Video Classifier</h3>
                 <p>Streamlit application powered by Mistral LLM that predicts video categories using metadata and transcripts with Google API integration.</p>
@@ -1084,4 +1136,3 @@
     </script>
 </body>
 </html>
-
