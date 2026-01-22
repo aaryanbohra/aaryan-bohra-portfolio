@@ -1,11 +1,48 @@
 // ===========================================
+// CONSTANTS
+// ===========================================
+const LOADER_DELAY_MS = 800;
+const STAR_COUNT = 200;
+const COUNTER_STEPS = 50;
+const PARALLAX_SCROLL_THRESHOLD = 800;
+const PARALLAX_FACTOR = 0.15;
+const NAV_SCROLL_THRESHOLD = 50;
+const CURSOR_SMOOTHING = 0.15;
+const THROTTLE_DELAY_MS = 16;
+const RIPPLE_DURATION_MS = 600;
+
+// Shared selector for animated cards
+const ANIMATED_CARD_SELECTORS = '.project-card, .skill-category, .cert-card, .stat-card, .education-card, .timeline-item, .highlight-item';
+
+// Interactive elements for custom cursor
+const INTERACTIVE_ELEMENTS = 'a, button, .btn, .project-card, .skill-category, .cert-card, .stat-card, .education-card, .timeline-content, .highlight-item';
+
+// ===========================================
+// UTILITY FUNCTIONS
+// ===========================================
+
+/**
+ * Throttle function to limit how often a function can be called
+ */
+function throttle(func, limit) {
+  let inThrottle;
+  return function (...args) {
+    if (!inThrottle) {
+      func.apply(this, args);
+      inThrottle = true;
+      setTimeout(() => (inThrottle = false), limit);
+    }
+  };
+}
+
+// ===========================================
 // PAGE LOADER
 // ===========================================
 document.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
     const loader = document.querySelector('.page-loader');
     loader?.classList.add('hidden');
-  }, 800);
+  }, LOADER_DELAY_MS);
 });
 
 // ===========================================
@@ -17,7 +54,6 @@ function initStarfield() {
 
   const ctx = canvas.getContext('2d');
   let stars = [];
-  const numStars = 200;
 
   function resizeCanvas() {
     canvas.width = window.innerWidth;
@@ -26,7 +62,7 @@ function initStarfield() {
 
   function createStars() {
     stars = [];
-    for (let i = 0; i < numStars; i++) {
+    for (let i = 0; i < STAR_COUNT; i++) {
       stars.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
@@ -75,7 +111,7 @@ function initStarfield() {
 initStarfield();
 
 // ===========================================
-// CUSTOM CURSOR
+// CUSTOM CURSOR (with throttled mousemove)
 // ===========================================
 function initCustomCursor() {
   const cursor = document.querySelector('.cursor');
@@ -86,16 +122,18 @@ function initCustomCursor() {
   let mouseX = 0, mouseY = 0;
   let cursorX = 0, cursorY = 0;
 
-  document.addEventListener('mousemove', (e) => {
+  const handleMouseMove = throttle((e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
     cursorDot.style.left = (mouseX - 3) + 'px';
     cursorDot.style.top = (mouseY - 3) + 'px';
-  });
+  }, THROTTLE_DELAY_MS);
+
+  document.addEventListener('mousemove', handleMouseMove);
 
   function animateCursor() {
-    cursorX += (mouseX - cursorX) * 0.15;
-    cursorY += (mouseY - cursorY) * 0.15;
+    cursorX += (mouseX - cursorX) * CURSOR_SMOOTHING;
+    cursorY += (mouseY - cursorY) * CURSOR_SMOOTHING;
     cursor.style.left = (cursorX - 10) + 'px';
     cursor.style.top = (cursorY - 10) + 'px';
     requestAnimationFrame(animateCursor);
@@ -103,8 +141,7 @@ function initCustomCursor() {
   animateCursor();
 
   // Add hover effect to interactive elements
-  const interactiveElements = 'a, button, .btn, .project-card, .skill-category, .cert-card, .stat-card, .education-card, .timeline-content, .highlight-item';
-  document.querySelectorAll(interactiveElements).forEach(el => {
+  document.querySelectorAll(INTERACTIVE_ELEMENTS).forEach(el => {
     el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
     el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
   });
@@ -135,37 +172,42 @@ function initMagneticButtons() {
 initMagneticButtons();
 
 // ===========================================
-// SCROLL PROGRESS BAR
+// CONSOLIDATED SCROLL HANDLER
 // ===========================================
-function initScrollProgress() {
+function initScrollHandlers() {
   const scrollProgress = document.querySelector('.scroll-progress');
-
-  window.addEventListener('scroll', () => {
-    const scrollTop = window.scrollY;
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const progress = (scrollTop / docHeight) * 100;
-    scrollProgress.style.width = progress + '%';
-  });
-}
-
-initScrollProgress();
-
-// ===========================================
-// NAVIGATION SCROLL EFFECT
-// ===========================================
-function initNavScroll() {
   const nav = document.querySelector('nav');
+  const heroImage = document.querySelector('.hero-image-container');
 
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) {
-      nav.classList.add('scrolled');
-    } else {
-      nav.classList.remove('scrolled');
+  const handleScroll = throttle(() => {
+    const scrollY = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+
+    // Scroll progress bar
+    if (scrollProgress) {
+      const progress = (scrollY / docHeight) * 100;
+      scrollProgress.style.width = progress + '%';
     }
-  });
+
+    // Navigation scroll effect
+    if (nav) {
+      if (scrollY > NAV_SCROLL_THRESHOLD) {
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+      }
+    }
+
+    // Parallax effect on hero image
+    if (heroImage && scrollY < PARALLAX_SCROLL_THRESHOLD) {
+      heroImage.style.transform = `translateY(${scrollY * PARALLAX_FACTOR}px)`;
+    }
+  }, THROTTLE_DELAY_MS);
+
+  window.addEventListener('scroll', handleScroll);
 }
 
-initNavScroll();
+initScrollHandlers();
 
 // ===========================================
 // MOBILE MENU TOGGLE
@@ -249,7 +291,7 @@ function initCounters() {
       if (entry.isIntersecting) {
         const counter = entry.target;
         const target = parseInt(counter.getAttribute('data-target'));
-        const increment = target / 50;
+        const increment = target / COUNTER_STEPS;
         let current = 0;
 
         const updateCounter = () => {
@@ -285,9 +327,7 @@ function initSectionAnimations() {
         entry.target.style.opacity = '1';
         entry.target.style.transform = 'translateY(0)';
 
-        const children = entry.target.querySelectorAll(
-          '.project-card, .skill-category, .cert-card, .stat-card, .education-card, .timeline-item, .highlight-item'
-        );
+        const children = entry.target.querySelectorAll(ANIMATED_CARD_SELECTORS);
         children.forEach((child, i) => {
           setTimeout(() => {
             child.style.opacity = '1';
@@ -303,9 +343,7 @@ function initSectionAnimations() {
     section.style.transform = 'translateY(30px)';
     section.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
 
-    const children = section.querySelectorAll(
-      '.project-card, .skill-category, .cert-card, .stat-card, .education-card, .timeline-item, .highlight-item'
-    );
+    const children = section.querySelectorAll(ANIMATED_CARD_SELECTORS);
     children.forEach(child => {
       child.style.opacity = '0';
       child.style.transform = 'translateY(20px)';
@@ -317,23 +355,6 @@ function initSectionAnimations() {
 }
 
 initSectionAnimations();
-
-// ===========================================
-// PARALLAX EFFECT ON HERO IMAGE
-// ===========================================
-function initParallax() {
-  const heroImage = document.querySelector('.hero-image-container');
-
-  window.addEventListener('scroll', () => {
-    if (!heroImage) return;
-    const scrolled = window.scrollY;
-    if (scrolled < 800) {
-      heroImage.style.transform = `translateY(${scrolled * 0.15}px)`;
-    }
-  });
-}
-
-initParallax();
 
 // ===========================================
 // SMOOTH SCROLLING
@@ -360,13 +381,14 @@ function initRippleEffect() {
     btn.addEventListener('click', function (e) {
       const rect = this.getBoundingClientRect();
       const ripple = document.createElement('span');
+      ripple.className = 'ripple-effect';
       ripple.style.cssText = `
         position: absolute;
         background: rgba(255,255,255,0.3);
         border-radius: 50%;
         pointer-events: none;
         transform: scale(0);
-        animation: ripple 0.6s ease-out;
+        animation: ripple ${RIPPLE_DURATION_MS}ms ease-out;
         left: ${e.clientX - rect.left}px;
         top: ${e.clientY - rect.top}px;
         width: 100px;
@@ -377,7 +399,7 @@ function initRippleEffect() {
       this.style.position = 'relative';
       this.style.overflow = 'hidden';
       this.appendChild(ripple);
-      setTimeout(() => ripple.remove(), 600);
+      setTimeout(() => ripple.remove(), RIPPLE_DURATION_MS);
     });
   });
 }
